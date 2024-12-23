@@ -18,6 +18,8 @@ public class MenuPanel : MonoBehaviour
 	public InputField nicknameInput;
 	public Button nicknameUpdateButton;
 
+	public Text logText;
+
 	[Header("Main Menu")]
 	#region Main Menu
 	public RectTransform mainMenuPanel;
@@ -46,6 +48,7 @@ public class MenuPanel : MonoBehaviour
 		createButton.onClick.AddListener(CreateButtonClick);
 		cancelButton.onClick.AddListener(CancelButtonClick);
 		nicknameUpdateButton.onClick.AddListener(NicknameUpdateButtonClick);
+		nicknameInput.onValueChanged.AddListener(NickNameInputEdit);
 	}
 
 	private void OnEnable()
@@ -120,8 +123,29 @@ public class MenuPanel : MonoBehaviour
 
 	public void NicknameUpdateButtonClick()
 	{
+		string nickname = nicknameInput.text;
+		if (nickname.NicknameValidate())
+		{
+			logText.text = "사용이 가능한 닉네임입니다.";
+			B_ChatManager.Instance.SetNickname(nickname);
+			createRoomButton.gameObject.SetActive(true);
+			findRoomButton.gameObject.SetActive(true);
+			randomRoomButton.gameObject.SetActive(true);
+			logoutButton.gameObject.SetActive(true);
+		}
+		else
+		{
+			logText.text = "닉네임 규칙에 위반되었습니다.";
+		}
+
 		PhotonNetwork.NickName = nicknameInput.text;
 		playerName.text = $"안녕하세요, {PhotonNetwork.NickName}님";
+	}
+
+	private void NickNameInputEdit(string input)
+	{
+		nicknameInput.SetTextWithoutNotify(input.ToValidString());
+		logText.text = "";
 	}
 
 }
