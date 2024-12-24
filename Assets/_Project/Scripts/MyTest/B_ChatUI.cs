@@ -30,6 +30,7 @@ public class B_ChatUI : MonoBehaviour
 		else
 		{
 			B_ChatManager.Instance.SendChatMessage(message);
+			messageInput.text = "";
 		}
 	}
 

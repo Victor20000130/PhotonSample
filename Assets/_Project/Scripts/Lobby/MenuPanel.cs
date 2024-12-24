@@ -127,19 +127,22 @@ public class MenuPanel : MonoBehaviour
 		if (nickname.NicknameValidate())
 		{
 			logText.text = "사용이 가능한 닉네임입니다.";
+			nicknameInput.text = "";
 			B_ChatManager.Instance.SetNickname(nickname);
 			createRoomButton.gameObject.SetActive(true);
 			findRoomButton.gameObject.SetActive(true);
 			randomRoomButton.gameObject.SetActive(true);
 			logoutButton.gameObject.SetActive(true);
+			PhotonNetwork.NickName = nickname;
+			playerName.text = $"안녕하세요, {PhotonNetwork.NickName}님";
 		}
 		else
 		{
 			logText.text = "닉네임 규칙에 위반되었습니다.";
 		}
 
-		PhotonNetwork.NickName = nicknameInput.text;
-		playerName.text = $"안녕하세요, {PhotonNetwork.NickName}님";
+
+
 	}
 
 	private void NickNameInputEdit(string input)

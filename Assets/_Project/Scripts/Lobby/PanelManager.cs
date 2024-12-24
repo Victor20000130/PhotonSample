@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PanelManager : MonoBehaviourPunCallbacks
 {
@@ -68,6 +69,11 @@ public class PanelManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedRoom()
 	{   //방에 참여할 때 호출
 		PanelOpen("Room");
+		Hashtable roomCustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+		if (roomCustomProperties.ContainsKey("Difficulty"))
+		{
+			room.OnDifficultyChange((Difficulty)roomCustomProperties["Difficulty"]);
+		}
 	}
 
 	public override void OnLeftRoom()
@@ -100,7 +106,25 @@ public class PanelManager : MonoBehaviourPunCallbacks
 		lobby.UpdateRoomList(roomList);
 	}
 
+	public override void OnRoomPropertiesUpdate(Hashtable properties)
+	{
+		if (properties.ContainsKey("Difficulty"))
+		{
+			room.OnDifficultyChange((Difficulty)properties["Difficulty"]);
+		}
+	}
 
+	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+	{
+		if (changedProps.ContainsKey("CharacterSelect"))
+		{
+			room.OnCharacterSelectChange(targetPlayer, changedProps);
+		}
+		if (changedProps.ContainsKey("Ready"))
+		{
+			room.OnReadySelectChange(targetPlayer, changedProps);
+		}
+	}
 
 }
 

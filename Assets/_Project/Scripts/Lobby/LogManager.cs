@@ -15,12 +15,12 @@ public class LogManager : MonoBehaviour
 		Instance = this;
 	}
 
-	public static void Log(string message)
+	public static void Log(object message)
 	{
 		if (Instance != null)
 		{
 			var logText = Instantiate(Instance.logText, Instance.logContent, false);
-			logText.text = message;
+			logText.text = message.ToString();
 		}
 		else
 		{
@@ -28,6 +28,6 @@ public class LogManager : MonoBehaviour
 		}
 	}
 
-	
+
 }
 

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public enum Difficulty
 {
@@ -28,16 +28,16 @@ public class RoomPanel : MonoBehaviour
 	public RectTransform playerList;
 	public GameObject playerTextPrefab;
 
-	public Dictionary<int, PlayerEntry> playerListDic = new Dictionary<int, PlayerEntry>();
-
 	public Button startButton;
 	public Button cancelButton;
 
-	private Dictionary<int, bool> playersReady;
+	public List<PlayerEntry> playerEntries;
 
 	private void Awake()
 	{
 		startButton.onClick.AddListener(StartButtonClick);
+		startButton.interactable = false;
+
 		cancelButton.onClick.AddListener(CancleButtonClick);
 		difficultyDropdown.ClearOptions();
 		foreach (object difficulty in Enum.GetValues(typeof(Difficulty)))
@@ -79,13 +79,14 @@ public class RoomPanel : MonoBehaviour
 	{
 		PlayerEntry playerEntry = Instantiate(playerTextPrefab, playerList,
 			false).GetComponent<PlayerEntry>();
-
+		playerEntries.Add(playerEntry);
 		playerEntry.playerNameText.text = newPlayer.NickName;
 		playerEntry.player = newPlayer;
 		if (PhotonNetwork.LocalPlayer.ActorNumber != newPlayer.ActorNumber)
 		{
 			playerEntry.readyToggle.gameObject.SetActive(false);
 		}
+		SortPlayer();
 	}
 
 	public void LeavePlayer(Player gonePlayer)
@@ -95,14 +96,59 @@ public class RoomPanel : MonoBehaviour
 			Player player = child.GetComponent<PlayerEntry>().player;
 			if (player.ActorNumber == gonePlayer.ActorNumber)
 			{
+				playerEntries.Remove(child.GetComponent<PlayerEntry>());
 				Destroy(child.gameObject);
+			}
+		}
+		SortPlayer();
+	}
+
+	public void SortPlayer()
+	{
+		foreach (Transform player in playerList)
+		{
+			Player playerInfo = player.GetComponent<PlayerEntry>().player;
+			player.SetSiblingIndex(playerInfo.ActorNumber);
+		}
+	}
+
+	private void DifficultyValueChange(int value)
+	{
+		Hashtable customProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+		customProperties["Difficulty"] = value;
+		PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties);
+	}
+
+	public void OnDifficultyChange(Difficulty value)
+	{
+		roomDifficulty = value;
+		difficultyText.text = value.ToString();
+	}
+
+	public void OnCharacterSelectChange(Player target, Hashtable changes)
+	{
+		foreach (Transform child in playerList)
+		{
+			PlayerEntry entry = child.GetComponent<PlayerEntry>();
+			if (entry.player == target)
+			{
+				int selection = (int)changes["CharacterSelect"];
+				entry.SetSelection(selection);
 			}
 		}
 	}
 
-	private void DifficultyValueChange(int arg0)
+	public void OnReadySelectChange(Player target, Hashtable changes)
 	{
-
+		foreach (Transform child in playerList)
+		{
+			PlayerEntry entry = child.GetComponent<PlayerEntry>();
+			if (entry.player == target)
+			{
+				bool ready = (bool)changes["Ready"];
+				entry.SetReady(ready);
+			}
+		}
 	}
 
 	private void CancleButtonClick()
