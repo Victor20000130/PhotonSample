@@ -106,25 +106,25 @@ public class PanelManager : MonoBehaviourPunCallbacks
 		lobby.UpdateRoomList(roomList);
 	}
 
-	public override void OnRoomPropertiesUpdate(Hashtable properties)
-	{
-		if (properties.ContainsKey("Difficulty"))
-		{
-			room.OnDifficultyChange((Difficulty)properties["Difficulty"]);
-		}
-	}
+	//public override void OnRoomPropertiesUpdate(Hashtable properties)
+	//{
+	//	if (properties.ContainsKey("Difficulty"))
+	//	{
+	//		room.OnDifficultyChange((Difficulty)properties["Difficulty"]);
+	//	}
+	//}
 
-	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-	{
-		if (changedProps.ContainsKey("CharacterSelect"))
-		{
-			room.OnCharacterSelectChange(targetPlayer, changedProps);
-		}
-		if (changedProps.ContainsKey("Ready"))
-		{
-			room.OnReadySelectChange(targetPlayer, changedProps);
-		}
-	}
+	//public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+	//{
+	//	if (changedProps.ContainsKey("CharacterSelect"))
+	//	{
+	//		room.OnCharacterSelectChange(targetPlayer, changedProps);
+	//	}
+	//	if (changedProps.ContainsKey("Ready"))
+	//	{
+	//		room.OnReadySelectChange(targetPlayer, changedProps);
+	//	}
+	//}
 
 }
 

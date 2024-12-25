@@ -27,7 +27,5 @@ public class LogManager : MonoBehaviour
 			print(message);
 		}
 	}
-
-
 }
 

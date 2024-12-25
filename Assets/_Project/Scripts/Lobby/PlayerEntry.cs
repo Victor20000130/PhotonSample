@@ -109,7 +109,6 @@ public class PlayerEntry : MonoBehaviour
 	{
 		if (IsMine) return;
 		readyToggle.isOn = ready;
-
 	}
 }
 
