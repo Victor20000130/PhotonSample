@@ -1,12 +1,15 @@
 using Photon.Chat;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
+using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerController : MonoBehaviourPun, IPunObservable
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
 	private Animator anim;
 	private Rigidbody rb;
@@ -28,6 +31,9 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
 	public Bomb bombPrefab;
 
+	private Player player;
+	private bool IsMine => player == PhotonNetwork.LocalPlayer;
+
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody>();
@@ -37,6 +43,22 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 		shotPoint = transform.Find("ShotPoint");
 		tag = photonView.IsMine ? "Player" : "Enemy";
 
+	}
+
+	private void Start()
+	{
+		if (false == PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("LoadedPlayer"))
+		{
+			PhotonNetwork.LocalPlayer.CustomProperties.Add("LoadedPlayer", 0f);
+		}
+		Time.timeScale = 0f;
+		if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.LocalPlayer.GetPlayerNumber() + 1)
+		{
+			Hashtable customProps = PhotonNetwork.LocalPlayer.CustomProperties;
+			customProps["LoadedPlayer"] = 1f;
+			LogManager.Log("좀 쳐 자자");
+			PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
+		}
 	}
 
 	private void Update()
@@ -120,7 +142,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{   //Stream을 통해 주고받는 데이터는 Server에서 받는 시간 기준으로 Queue형태로 전달
 		//데이터 자체도 큐
-
 		if (stream.IsWriting)
 		{   //내 데이터를 Server로 보냄
 			stream.SendNext(hp);
@@ -131,5 +152,24 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 			hp = (float)stream.ReceiveNext();
 			shotCount = (int)stream.ReceiveNext();
 		}
+	}
+
+	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+	{
+		if (changedProps.ContainsKey("LoadedPlayer"))
+		{
+			LogManager.Log("개새끼야");
+			OnLoadedPlayerChange(targetPlayer, changedProps);
+		}
+	}
+
+	private void OnLoadedPlayerChange(Player targetPlayer, Hashtable changedProps)
+	{
+		if (player == targetPlayer)
+		{
+			Time.timeScale = (float)changedProps["LoadedPlayer"];
+			LogManager.Log("씨발");
+		}
+
 	}
 }
