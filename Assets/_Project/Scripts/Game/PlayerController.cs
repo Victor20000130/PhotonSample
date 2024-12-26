@@ -1,5 +1,6 @@
 using Photon.Chat;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 		pointer = transform.Find("PlayerPointer");
 		shotPoint = transform.Find("ShotPoint");
 		tag = photonView.IsMine ? "Player" : "Enemy";
+
 	}
 
 	private void Update()
@@ -86,6 +88,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 	private void Heal(float amount)
 	{
 		hp += amount;
+		if (hp < 100) hp = 100;
 	}
 
 	//Fire를 통해서 생성하는 bomb객체는 "데드레커닝"(추측항법 알고리즘)을 통해서
