@@ -19,6 +19,7 @@ public class PlayerEntry : MonoBehaviour
     public Player player;
     public bool IsMine => player == PhotonNetwork.LocalPlayer;
 
+    private bool localReady = false;
 
     private void Awake()
     {
@@ -30,11 +31,13 @@ public class PlayerEntry : MonoBehaviour
         {
             if (isOn)
             {
-                ready.SetActive(isOn);
+                localReady = true;
+                ready.SetActive(localReady);
             }
             else
             {
-                ready.SetActive(isOn);
+                localReady = false;
+                ready.SetActive(localReady);
             }
         });
     }
@@ -49,7 +52,7 @@ public class PlayerEntry : MonoBehaviour
 
         if (false == customProperties.ContainsKey("Ready"))
         {
-            customProperties.Add("Ready", 0);
+            customProperties.Add("Ready", localReady);
         }
 
         int select = (int)customProperties["CharacterSelect"];
@@ -79,13 +82,13 @@ public class PlayerEntry : MonoBehaviour
                     if (isOn)
                     {
                         Hashtable customProperties = player.CustomProperties;
-                        customProperties["Ready"] = isOn;
+                        customProperties["Ready"] = localReady;
                         player.SetCustomProperties(customProperties);
                     }
                     else
                     {
                         Hashtable customProperties = player.CustomProperties;
-                        customProperties["Ready"] = isOn;
+                        customProperties["Ready"] = localReady;
                         player.SetCustomProperties(customProperties);
                     }
                 });

@@ -31,9 +31,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public Bomb bombPrefab;
 
-    private Player player;
-    private bool IsMine => player == PhotonNetwork.LocalPlayer;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -42,22 +39,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         pointer = transform.Find("PlayerPointer");
         shotPoint = transform.Find("ShotPoint");
         tag = photonView.IsMine ? "Player" : "Enemy";
-
-    }
-
-    private void Start()
-    {
-        if (false == PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("LoadedPlayer"))
-        {
-            PhotonNetwork.LocalPlayer.CustomProperties.Add("LoadedPlayer", 0f);
-        }
-        Time.timeScale = 0f;
-        if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.LocalPlayer.GetPlayerNumber() + 1)
-        {
-            Hashtable customProps = PhotonNetwork.LocalPlayer.CustomProperties;
-            customProps["LoadedPlayer"] = 1f;
-            PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
-        }
     }
 
     private void Update()
@@ -104,6 +85,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private void Hit(float damage)
     {
         hp -= damage;
+        if (hp <= 0)
+        {
+
+        }
     }
 
     private void Heal(float amount)
@@ -153,20 +138,4 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        if (changedProps.ContainsKey("LoadedPlayer"))
-        {
-            OnLoadedPlayerChange(targetPlayer, changedProps);
-        }
-    }
-
-    private void OnLoadedPlayerChange(Player targetPlayer, Hashtable changedProps)
-    {
-        if (player == targetPlayer)
-        {
-            Time.timeScale = (float)changedProps["LoadedPlayer"];
-        }
-
-    }
 }

@@ -10,6 +10,13 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
 
 
+public enum PlayerState
+{
+    ALIVE,
+    LOSE,
+    WIN
+}
+
 public class GameManager : MonoBehaviourPunCallbacks
 {
 
@@ -19,13 +26,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public static bool isGameReady;
 
-    public bool readyToBattle = false;
-
-    public int instantPlayerCount;
+    public PlayerState playerState;
 
     private void Awake()
     {
         Instance = this;
+        playerState = PlayerState.ALIVE;
     }
 
     //Photon에서 컨트롤 동기화 하는 방법
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator Start()
     {
+
         yield return new WaitUntil(() => isGameReady);
         //바로 실행하면 동기화 안될 때가 있어서 1초 대기
         yield return new WaitForSeconds(1f);
@@ -72,6 +79,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 playerObj.transform.Find("Renderer").Find("Eyes").Find("Lense").gameObject.SetActive(true);
                 break;
         }
+
 
 
         //이 밑에서는 내가 MasterClient가 아니면 동작하지 않음
@@ -113,6 +121,23 @@ public class GameManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity).name = PhotonNetwork.NickName;
     }
 
-
+    private IEnumerator CheckResult()
+    {
+        while (true)
+        {
+            switch (playerState)
+            {
+                case PlayerState.ALIVE:
+                    continue;
+                case PlayerState.LOSE:
+                    LogManager.Log("너 짐");
+                    StopCoroutine(CheckResult());
+                    break;
+                case PlayerState.WIN:
+                    LogManager.Log("너 이김");
+                    break;
+            }
+        }
+    }
 
 }

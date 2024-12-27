@@ -9,43 +9,63 @@ using UnityEngine.UI;
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
 
-	public bool isTestmode = false;
+    public bool isTestmode = false;
 
-	private void Start()
-	{
-		isTestmode = PhotonNetwork.IsConnected == false;
+    private IEnumerator Start()
+    {
+        isTestmode = PhotonNetwork.IsConnected == false;
 
-		if (isTestmode)
-		{
-			PhotonNetwork.ConnectUsingSettings();
-		}
-		else
-		{
-			GameManager.isGameReady = true;
-		}
-	}
+        if (false == PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("SceneLoaded"))
+        {
+            PhotonNetwork.LocalPlayer.CustomProperties.Add("SceneLoaded", true);
+        }
 
-	public override void OnConnectedToMaster()
-	{
-		if (isTestmode)
-		{
-			RoomOptions options = new()
-			{
-				IsVisible = false,
-				MaxPlayers = 8,
-			};
-			PhotonNetwork.JoinOrCreateRoom("TestRoom", options, TypedLobby.Default);
-		}
-	}
+        PhotonNetwork.LocalPlayer.SetCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
 
-	public override void OnJoinedRoom()
-	{
-		if (isTestmode)
-		{
-			GameObject.Find("Canvas/DebugText").GetComponent<Text>().text =
-				PhotonNetwork.CurrentRoom.Name;
+        if (isTestmode)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        else
+        {
+            yield return new WaitUntil(AllPlayersReady);
+            yield return null;
+        }
+        GameManager.isGameReady = true;
+    }
 
-			GameManager.isGameReady = true;
-		}
-	}
+    private bool AllPlayersReady()
+    {
+        foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
+        {
+            if (false == player.CustomProperties.ContainsKey("SceneLoaded"))
+                return false;
+        }
+        return true;
+    }
+
+
+    public override void OnConnectedToMaster()
+    {
+        if (isTestmode)
+        {
+            RoomOptions options = new()
+            {
+                IsVisible = false,
+                MaxPlayers = 8,
+            };
+            PhotonNetwork.JoinOrCreateRoom("TestRoom", options, TypedLobby.Default);
+        }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        if (isTestmode)
+        {
+            GameObject.Find("Canvas/DebugText").GetComponent<Text>().text =
+                PhotonNetwork.CurrentRoom.Name;
+
+            GameManager.isGameReady = true;
+        }
+    }
 }
