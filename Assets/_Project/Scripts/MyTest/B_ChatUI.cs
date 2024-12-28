@@ -25,7 +25,7 @@ public class B_ChatUI : MonoBehaviour
 		if (string.IsNullOrEmpty(message)) return;
 		if (message.ContainsFword())
 		{
-			ReceiveChatMessage("", "<color=red>ºñ¼Ó¾î°¡ Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù.</color>");
+			ReceiveChatMessage("", "<color=red>ë¹„ì†ì–´ê°€ í¬í•¨ë˜ì–´ ìˆìŠµë‹ˆë‹¤.</color>");
 		}
 		else
 		{

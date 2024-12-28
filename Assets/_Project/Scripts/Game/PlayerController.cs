@@ -13,9 +13,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
 	private Animator anim;
 	private Rigidbody rb;
-	//Ä³¸¯ÅÍ°¡ ÃÄ´Ùº¼ °÷
+	//ìºë¦­í„°ê°€ ì³ë‹¤ë³¼ ê³³
 	private Transform pointer;
-	//Åõ»çÃ¼°¡ »ı¼ºµÉ °÷
+	//íˆ¬ì‚¬ì²´ê°€ ìƒì„±ë  ê³³
 	private Transform shotPoint;
 
 	private int shotCount = 0;
@@ -24,9 +24,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 	public float moveSpeed = 10;
 	public float shotPower = 5;
 
-	//Ã¼·Â Ç¥½Ã text
+	//ì²´ë ¥ í‘œì‹œ text
 	public Text hpText;
-	//¹ß»ç È½¼ö Ç¥½Ã text
+	//ë°œì‚¬ íšŸìˆ˜ í‘œì‹œ text
 	public Text shotText;
 
 	public Bomb bombPrefab;
@@ -48,10 +48,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 		if (false == photonView.IsMine) return;
 		Move();
 		if (Input.GetButtonDown("Fire1"))
-		{   //ÀÌ È£ÃâÀº ·ÎÄÃ¿¡¼­¸¸ µÇ´Ï±î ÀÌ·¸°ÔÇÏ¸é ¾ÈµÊ.
+		{   //ì´ í˜¸ì¶œì€ ë¡œì»¬ì—ì„œë§Œ ë˜ë‹ˆê¹Œ ì´ë ‡ê²Œí•˜ë©´ ì•ˆë¨.
 			//Fire();
 
-			//RPC¸¦ ÅëÇØ¼­ Fire¸Ş¼­µå¸¦ È£ÃâÇÏ°í RPC¿¡ ÀÚ½Å Æ÷ÇÔ ¸ğµç À¯´Ö¿¡°Ô ½ÇÇà½ÃÅ°µµ·Ï ÇÔ.
+			//RPCë¥¼ í†µí•´ì„œ Fireë©”ì„œë“œë¥¼ í˜¸ì¶œí•˜ê³  RPCì— ìì‹  í¬í•¨ ëª¨ë“  ìœ ë‹›ì—ê²Œ ì‹¤í–‰ì‹œí‚¤ë„ë¡ í•¨.
 			photonView.RPC("Fire", RpcTarget.All, shotPoint.position, shotPoint.forward);
 			shotCount++;
 			anim.SetTrigger("Attack");
@@ -99,37 +99,37 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 		if (hp < 100) hp = 100;
 	}
 
-	//Fire¸¦ ÅëÇØ¼­ »ı¼ºÇÏ´Â bomb°´Ã¼´Â "µ¥µå·¹Ä¿´×"(ÃßÃøÇ×¹ı ¾Ë°í¸®Áò)À» ÅëÇØ¼­
-	//°¢ Å¬¶óÀÌ¾ğÆ®µéÀÌ Á÷Á¢ »ı¼ºÇÏ°í, FireÇÔ¼ö¸¦ È£Ãâ ¹Ş´Â ½ÃÁ¡À» ¿Â¶óÀÎÀ¸·Î È£Ãâ¹ŞÀ½.(Remote Procedure Call)
+	//Fireë¥¼ í†µí•´ì„œ ìƒì„±í•˜ëŠ” bombê°ì²´ëŠ” "ë°ë“œë ˆì»¤ë‹"(ì¶”ì¸¡í•­ë²• ì•Œê³ ë¦¬ì¦˜)ì„ í†µí•´ì„œ
+	//ê° í´ë¼ì´ì–¸íŠ¸ë“¤ì´ ì§ì ‘ ìƒì„±í•˜ê³ , Fireí•¨ìˆ˜ë¥¼ í˜¸ì¶œ ë°›ëŠ” ì‹œì ì„ ì˜¨ë¼ì¸ìœ¼ë¡œ í˜¸ì¶œë°›ìŒ.(Remote Procedure Call)
 	[PunRPC]
 	private void Fire(Vector3 shotPoint, Vector3 shotDir, PhotonMessageInfo info)
 	{
-		//¿©±â¿¡ ÀÌ°Å ¾²¸é ÃßÃøÇ×¹ı ¸ø¾´´Ù.
+		//ì—¬ê¸°ì— ì´ê±° ì“°ë©´ ì¶”ì¸¡í•­ë²• ëª»ì“´ë‹¤.
 		//if (false == photonView.IsMine) return;
 
 		print($"Fire Procedure called by {info.Sender.NickName}");
 		print($"My local time : {PhotonNetwork.Time}");
 		print($"Server time when procedure called : {info.SentServerTime}");
 
-		//"Áö¿¬º¸»ó" : (ÃßÃøÇ×¹ıÀ» À§ÇØ) RPC¸¦ ¹ŞÀº ½ÃÁ¡Àº ¼­¹ö¿¡¼­ È£ÃâµÈ ½Ã°£º¸´Ù Ç×»ó ´Ê±â ¶§¹®¿¡,
-		//ÇØ´ç Áö¿¬½Ã°£¸¸Å­ À§Ä¡, ¶Ç´Â ¿¬»ê·®À» º¸Á¤ÇØÁÖ¾î¾ß ÃÖ´ëÇÑ ¿ø°İ¿¡¼­ÀÇ ÇÃ·¹ÀÌ°¡ µ¿±âÈ­µÉ ¼ö ÀÖÀ½.
+		//"ì§€ì—°ë³´ìƒ" : (ì¶”ì¸¡í•­ë²•ì„ ìœ„í•´) RPCë¥¼ ë°›ì€ ì‹œì ì€ ì„œë²„ì—ì„œ í˜¸ì¶œëœ ì‹œê°„ë³´ë‹¤ í•­ìƒ ëŠ¦ê¸° ë•Œë¬¸ì—,
+		//í•´ë‹¹ ì§€ì—°ì‹œê°„ë§Œí¼ ìœ„ì¹˜, ë˜ëŠ” ì—°ì‚°ëŸ‰ì„ ë³´ì •í•´ì£¼ì–´ì•¼ ìµœëŒ€í•œ ì›ê²©ì—ì„œì˜ í”Œë ˆì´ê°€ ë™ê¸°í™”ë  ìˆ˜ ìˆìŒ.
 
-		//º¸Á¤ÇØ¾ß ÇÒ Áö¿¬½Ã°£
+		//ë³´ì •í•´ì•¼ í•  ì§€ì—°ì‹œê°„
 		float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
 
 		Bomb bomb = Instantiate(bombPrefab, shotPoint, Quaternion.identity);
 		bomb.rb.AddForce(shotDir * shotPower, ForceMode.Impulse);
 		bomb.owner = photonView.Owner;
 
-		//Áö¿¬º¸»ó µé¾î°£´Ù.
+		//ì§€ì—°ë³´ìƒ ë“¤ì–´ê°„ë‹¤.
 		bomb.rb.position += bomb.rb.velocity * lag;
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-	{   //StreamÀ» ÅëÇØ ÁÖ°í¹Ş´Â µ¥ÀÌÅÍ´Â Server¿¡¼­ ¹Ş´Â ½Ã°£ ±âÁØÀ¸·Î QueueÇüÅÂ·Î Àü´Ş
-		//µ¥ÀÌÅÍ ÀÚÃ¼µµ Å¥
+	{   //Streamì„ í†µí•´ ì£¼ê³ ë°›ëŠ” ë°ì´í„°ëŠ” Serverì—ì„œ ë°›ëŠ” ì‹œê°„ ê¸°ì¤€ìœ¼ë¡œ Queueí˜•íƒœë¡œ ì „ë‹¬
+		//ë°ì´í„° ìì²´ë„ í
 		if (stream.IsWriting)
-		{   //³» µ¥ÀÌÅÍ¸¦ Server·Î º¸³¿
+		{   //ë‚´ ë°ì´í„°ë¥¼ Serverë¡œ ë³´ëƒ„
 			stream.SendNext(hp);
 			stream.SendNext(shotCount);
 		}

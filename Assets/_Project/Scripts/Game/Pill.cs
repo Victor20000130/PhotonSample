@@ -8,7 +8,7 @@ public class Pill : MonoBehaviourPun
 {
 	public Renderer render;
 
-	//Èú·® ·£´ı
+	//íëŸ‰ ëœë¤
 	private float healAmount;
 
 	private void OnTriggerEnter(Collider other)
@@ -21,7 +21,7 @@ public class Pill : MonoBehaviourPun
 	}
 
 	private void Awake()
-	{   //PhotonNetwork.Instantiate È£Ãâ ½Ã ÇÔ²² º¸³½ Data ÆÄ¶ó¹ÌÅÍ
+	{   //PhotonNetwork.Instantiate í˜¸ì¶œ ì‹œ í•¨ê»˜ ë³´ë‚¸ Data íŒŒë¼ë¯¸í„°
 		object[] param = photonView.InstantiationData;
 		if (param != null)
 		{

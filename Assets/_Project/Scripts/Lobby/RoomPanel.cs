@@ -57,14 +57,14 @@ public class RoomPanel : MonoBehaviourPunCallbacks, IInRoomCallbacks
         roomTitleText.text = PhotonNetwork.CurrentRoom.Name;
 
         foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
-        {   //ÇÃ·¹ÀÌ¾î Á¤º¸ °´Ã¼ »ı¼º
+        {   //í”Œë ˆì´ì–´ ì •ë³´ ê°ì²´ ìƒì„±
             JoinPlayer(player);
         }
 
-        //¹æÀåÀÎ °æ¿ì IsMasterClient°¡ True·Î ¿Â´Ù.
-        //ÇØ´ç ºÒº¯¼ö¸¦ ÅëÇØ¼­ ¹æÀå¸¸ ³­ÀÌµµ¿Í ½ºÅ¸Æ®¸¦ º¼ ¼ö ÀÖµµ·Ï ¼³Á¤
-        //¹æÀåÀÌ ¿¬°áÀÌ ²÷°åÀ» ¶§ ÀÚµ¿À¸·Î ´Ù¸¥ Å¬¶óÀÌ¾ğÆ®°¡ ¹æÀåÀÌµÇ´Âµ¥,
-        //ÀÌ¶§ º°µµÀÇ Äİº¤À¸·Î È®ÀÎÇÒ ¼ö ÀÖ´Ù°í ÇÑ´Ù.
+        //ë°©ì¥ì¸ ê²½ìš° IsMasterClientê°€ Trueë¡œ ì˜¨ë‹¤.
+        //í•´ë‹¹ ë¶ˆë³€ìˆ˜ë¥¼ í†µí•´ì„œ ë°©ì¥ë§Œ ë‚œì´ë„ì™€ ìŠ¤íƒ€íŠ¸ë¥¼ ë³¼ ìˆ˜ ìˆë„ë¡ ì„¤ì •
+        //ë°©ì¥ì´ ì—°ê²°ì´ ëŠê²¼ì„ ë•Œ ìë™ìœ¼ë¡œ ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ê°€ ë°©ì¥ì´ë˜ëŠ”ë°,
+        //ì´ë•Œ ë³„ë„ì˜ ì½œë²¡ìœ¼ë¡œ í™•ì¸í•  ìˆ˜ ìˆë‹¤ê³  í•œë‹¤.
         OnMasterClientChanged();
     }
 
@@ -72,7 +72,7 @@ public class RoomPanel : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         base.OnDisable();
         foreach (Transform child in playerList)
-        {   //ÇÃ·¹ÀÌ¾î ¸®½ºÆ®¿¡ ´Ù¸¥ °´Ã¼°¡ ÀÖÀ¸¸é ÀÏ´Ü ¸ğµÎ »èÁ¦
+        {   //í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ì— ë‹¤ë¥¸ ê°ì²´ê°€ ìˆìœ¼ë©´ ì¼ë‹¨ ëª¨ë‘ ì‚­ì œ
             Destroy(child.gameObject);
         }
     }
@@ -171,8 +171,6 @@ public class RoomPanel : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         PhotonNetwork.LoadLevel("GameScene");
     }
-
-
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {

@@ -9,7 +9,6 @@ using UniRan = UnityEngine.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
 
-
 public enum PlayerState
 {
 	ALIVE,
@@ -36,27 +35,27 @@ public class GameManager : MonoBehaviourPunCallbacks
 		playerState = PlayerState.ALIVE;
 	}
 
-	//Photon¿¡¼­ ÄÁÆ®·Ñ µ¿±âÈ­ ÇÏ´Â ¹æ¹ı
+	//Photonì—ì„œ ì»¨íŠ¸ë¡¤ ë™ê¸°í™” í•˜ëŠ” ë°©ë²•
 
-	//1. ÇÁ¸®ÆÕ¿¡ PhotonView ÄÄÆ÷³ÍÆ®¸¦ ºÙÀÌ°í,
-	//PhotonNetwork.Instantiate¸¦ ÅëÇØ
-	//¿ø°İ Å¬¶óÀÌ¾ğÆ®¿¡°Ôµµ µ¿±âÈ­µÈ ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇÏµµ·Ï ÇÔ.
+	//1. í”„ë¦¬íŒ¹ì— PhotonView ì»´í¬ë„ŒíŠ¸ë¥¼ ë¶™ì´ê³ ,
+	//PhotonNetwork.Instantiateë¥¼ í†µí•´
+	//ì›ê²© í´ë¼ì´ì–¸íŠ¸ì—ê²Œë„ ë™ê¸°í™”ëœ ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±í•˜ë„ë¡ í•¨.
 
-	//2. PhotonView°¡ ObservingÇÒ ¼ö ÀÖµµ·Ï View ÄÄÆ÷³ÍÆ®¸¦ ºÎÂø.
+	//2. PhotonViewê°€ Observingí•  ìˆ˜ ìˆë„ë¡ View ì»´í¬ë„ŒíŠ¸ë¥¼ ë¶€ì°©.
 
-	//3. ³» View°¡ ºÎÂøµÇÁö ¾ÊÀº ¿ÀºêÁ§Æ®´Â ³»°¡ Á¦¾îÇÏÁö ¾Êµµ·Ï ¿¹¿ÜÃ³¸®¸¦ ¹İµå½Ã ÇÒ °Í.
+	//3. ë‚´ Viewê°€ ë¶€ì°©ë˜ì§€ ì•Šì€ ì˜¤ë¸Œì íŠ¸ëŠ” ë‚´ê°€ ì œì–´í•˜ì§€ ì•Šë„ë¡ ì˜ˆì™¸ì²˜ë¦¬ë¥¼ ë°˜ë“œì‹œ í•  ê²ƒ.
 
 	private IEnumerator Start()
 	{
 
 		yield return new WaitUntil(() => isGameReady);
-		//¹Ù·Î ½ÇÇàÇÏ¸é µ¿±âÈ­ ¾ÈµÉ ¶§°¡ ÀÖ¾î¼­ 1ÃÊ ´ë±â
+		//ë°”ë¡œ ì‹¤í–‰í•˜ë©´ ë™ê¸°í™” ì•ˆë  ë•Œê°€ ìˆì–´ì„œ 1ì´ˆ ëŒ€ê¸°
 		yield return new WaitForSeconds(1f);
-		//GetPlayerNumber È®ÀåÇÔ¼ö :
-		//Æ÷Åæ ³×Æ®¿öÅ©¿¡ ¿¬°áµÈ ´Ù¸¥ ÇÃ·¹ÀÌ¾îµé »çÀÌ¿¡¼­ µ¿±âÈ­µÈ ÇÃ·¹ÀÌ¾î ¹øÈ£.
-		//Actor Number¿Í ´Ù¸§.(Scene¸¶´Ù ¼±Âø¼øÀ¸·Î 0~ÇÃ·¹ÀÌ¾î ¼ö¸¸Å­ ºÎ¿©µÊ.)
-		//GetPlayerNumber È®ÀåÇÔ¼ö°¡ µ¿ÀÛÇÏ±â À§ÇØ¼­´Â ¾À¿¡
-		//PlayerNumbering ÄÄÆ÷³ÍÆ®°¡ ÇÊ¿äÇÏ´Ù.
+		//GetPlayerNumber í™•ì¥í•¨ìˆ˜ :
+		//í¬í†¤ ë„¤íŠ¸ì›Œí¬ì— ì—°ê²°ëœ ë‹¤ë¥¸ í”Œë ˆì´ì–´ë“¤ ì‚¬ì´ì—ì„œ ë™ê¸°í™”ëœ í”Œë ˆì´ì–´ ë²ˆí˜¸.
+		//Actor Numberì™€ ë‹¤ë¦„.(Sceneë§ˆë‹¤ ì„ ì°©ìˆœìœ¼ë¡œ 0~í”Œë ˆì´ì–´ ìˆ˜ë§Œí¼ ë¶€ì—¬ë¨.)
+		//GetPlayerNumber í™•ì¥í•¨ìˆ˜ê°€ ë™ì‘í•˜ê¸° ìœ„í•´ì„œëŠ” ì”¬ì—
+		//PlayerNumbering ì»´í¬ë„ŒíŠ¸ê°€ í•„ìš”í•˜ë‹¤.
 		int playerNum = PhotonNetwork.LocalPlayer.GetPlayerNumber();
 		Vector3 playerPos = playerPositions.GetChild(playerNum).position;
 		GameObject playerObj = PhotonNetwork.Instantiate("Player", playerPos, Quaternion.identity);
@@ -64,11 +63,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 		var customProp = PhotonNetwork.LocalPlayer.CustomProperties;
 
-
-
-		//ÀÌ°Ç ¾²·¹±â °°ÀÌ Ã£¾Æ¿À´Â ¹æ½ÄÀÓ ±ÍÂú±â ¶§¹®¿¡ ±×³É ÇÔ.
-		//¹®Á¦Á¡ : playerObjÇÏÀ§¿¡ ¿ÉÁ§ ¸¹¾ÆÁö¸é ºÎÇÏ ½ÉÇØÁü. //ÀåÁ¡ : ¾²·¹±â °°Áö¸é ÆíÇÏÁÒ?
-		//ÇØ°áÃ¥ : ¹è¿­À» ¾²´ø ¹» ¾²´ø customPropÀÇ °ªÇÏ°í ¸ÅÄª½ÃÅ°¸é µÊ.
+		//ì´ê±´ ì“°ë ˆê¸° ê°™ì´ ì°¾ì•„ì˜¤ëŠ” ë°©ì‹ì„ ê·€ì°®ê¸° ë•Œë¬¸ì— ê·¸ëƒ¥ í•¨.
+		//ë¬¸ì œì  : playerObjí•˜ìœ„ì— ì˜µì  ë§ì•„ì§€ë©´ ë¶€í•˜ ì‹¬í•´ì§. //ì¥ì  : ì“°ë ˆê¸° ê°™ì§€ë©´ í¸í•˜ì£ ?
+		//í•´ê²°ì±… : ë°°ì—´ì„ ì“°ë˜ ë­˜ ì“°ë˜ customPropì˜ ê°’í•˜ê³  ë§¤ì¹­ì‹œí‚¤ë©´ ë¨.
 		switch (customProp["CharacterSelect"])
 		{
 			case 0:
@@ -87,21 +84,21 @@ public class GameManager : MonoBehaviourPunCallbacks
 			players.Add(player);
 		}
 
-		//ÀÌ ¹Ø¿¡¼­´Â ³»°¡ MasterClient°¡ ¾Æ´Ï¸é µ¿ÀÛÇÏÁö ¾ÊÀ½
+		//ì´ ë°‘ì—ì„œëŠ” ë‚´ê°€ MasterClientê°€ ì•„ë‹ˆë©´ ë™ì‘í•˜ì§€ ì•ŠìŒ
 		if (false == PhotonNetwork.IsMasterClient)
 		{
 			yield break;
 		}
 
-		//Master Client¸¸ 5ÃÊ¸¶´Ù .PillÀ» PhotonNetwork¸¦ ÅëÇØ Instantiate.
+		//Master Clientë§Œ 5ì´ˆë§ˆë‹¤ .Pillì„ PhotonNetworkë¥¼ í†µí•´ Instantiate.
 		while (true)
-		{   //PhotonNetwork.Instantiate¸¦ ÅëÇØ »ı¼ºÇÒ °æ¿ì,
-			//position°ú rotationÀÌ ¹İµå½Ã ÇÊ¿ä.
+		{   //PhotonNetwork.Instantiateë¥¼ í†µí•´ ìƒì„±í•  ê²½ìš°,
+			//positionê³¼ rotationì´ ë°˜ë“œì‹œ í•„ìš”.
 			Vector3 spawnPos = UniRan.insideUnitSphere * 15;
 			spawnPos.y = 0;
 			Quaternion spawnRot = Quaternion.Euler(0, UniRan.Range(0, 180f), 0);
 
-			//°¢ Pill¸¶´Ù Random color(Color)¿Í Random healAmount(float)¸¦ ÁÖÀÔÇÏ°í ½ÍÀ¸¸é?
+			//ê° Pillë§ˆë‹¤ Random color(Color)ì™€ Random healAmount(float)ë¥¼ ì£¼ì…í•˜ê³  ì‹¶ìœ¼ë©´?
 
 			Vector3 color = new Vector3(UniRan.value, UniRan.value, UniRan.value);
 			float healAmount = UniRan.Range(10f, 30f);
@@ -112,17 +109,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 			yield return new WaitForSeconds(5f);
 		}
 
-
-
-
-		//ÀÌ·¸°ÔÇÏ¸é °¢ Å¬¶óÀÌ¾ğÆ®¿¡ ÇÃ·¹ÀÌ¾î°¡ »ı¼º¾ÈµÊ.
-		//·ÎÄÃ¿¡¼­¸¸ º¸ÀÓ.(¸ÖÆ¼ À¯Àú°¡ ¾Èº¸ÀÓ)
+		//ì´ë ‡ê²Œí•˜ë©´ ê° í´ë¼ì´ì–¸íŠ¸ì— í”Œë ˆì´ì–´ê°€ ìƒì„±ì•ˆë¨.
+		//ë¡œì»¬ì—ì„œë§Œ ë³´ì„.(ë©€í‹° ìœ ì €ê°€ ì•ˆë³´ì„)
 		//GameObject playerPrefab = Resources.Load<GameObject>("Player");
 		//Instantiate(playerPrefab).name = PhotonNetwork.NickName;
 
 		//Vector3 spawnPos = playerPositions
 		//	.GetChild(UniRan.Range(0, playerPositions.childCount)).position;
-		////ÀÌ·¸°Ô »ı¼ºÇØ¾ßÁö °¢ Å¬¶óÀÌ¾ğÆ® ·ÎÄÃ¿¡µµ ¸ÖÆ¼ À¯´ÖÀÌ »ı¼ºÀÌ µÈ´Ù.
+		////ì´ë ‡ê²Œ ìƒì„±í•´ì•¼ì§€ ê° í´ë¼ì´ì–¸íŠ¸ ë¡œì»¬ì—ë„ ë©€í‹° ìœ ë‹›ì´ ìƒì„±ì´ ëœë‹¤.
 		//PhotonNetwork.Instantiate("Player", spawnPos, Quaternion.identity).name = PhotonNetwork.NickName;
 	}
 
@@ -137,11 +131,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 					CheckWinner();
 					continue;
 				case PlayerState.LOSE:
-					LogManager.Log("³Ê Áü");
+					LogManager.Log("?ê¼« ï§?");
 					StopCoroutine(PlayersState());
 					break;
 				case PlayerState.WIN:
-					LogManager.Log("³Ê ÀÌ±è");
+					LogManager.Log("?ê¼« ?ì” æº?");
 					break;
 			}
 		}

@@ -22,7 +22,7 @@ public class Bomb : MonoBehaviour
 		particle.Play();
 		Destroy(particle.gameObject, 3);
 
-		//Ãæµ¹ Áï½Ã Renderer¿Í Collider ºñÈ°¼ºÈ­ÇÏ¿© ½ÇÁúÀûÀÎ ¿ªÇÒÀ» ÇÏÁö ¾Êµµ·Ï.
+		//ì¶©ëŒ ì¦‰ì‹œ Rendererì™€ Collider ë¹„í™œì„±í™”í•˜ì—¬ ì‹¤ì§ˆì ì¸ ì—­í• ì„ í•˜ì§€ ì•Šë„ë¡.
 		GetComponent<Renderer>().enabled = false;
 		GetComponent<Collider>().enabled = false;
 
@@ -36,7 +36,7 @@ public class Bomb : MonoBehaviour
 			{
 				collider.SendMessage("Hit", 1);
 				PhotonView target = collider.GetComponent<PhotonView>();
-				print($"{owner.NickName}ÀÌ ´øÁø ÆøÅº¿¡ {target.Owner.NickName}°¡ ¸ÂÀ½");
+				print($"{owner.NickName}ì´ ë˜ì§„ í­íƒ„ì— {target.Owner.NickName}ê°€ ë§ìŒ");
 			}
 		}
 	}

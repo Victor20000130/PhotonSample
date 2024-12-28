@@ -14,7 +14,6 @@ public class PanelManager : MonoBehaviourPunCallbacks
 	public LobbyPanel lobby;
 	public RoomPanel room;
 
-
 	Dictionary<string, GameObject> panelDic;
 
 	private void Awake()
@@ -40,34 +39,33 @@ public class PanelManager : MonoBehaviourPunCallbacks
 	}
 
 	public override void OnEnable()
-	{   //MonoBehaviourPunCallbacks À» »ó¼Ó¹ŞÀ½À¸·Î Æ÷ÅæÀÇ Äİº¤µéÀ» »ç¿ëÇÒ ¼ö ÀÖ´Ù.
-		//ºÎ¸ğÀÇ ¸Ş¼­µå¸¦ »ó¼Ó¹Ş¾Æ¾ß¸¸, ¼­¹ö¿Í Åë½ÅÀÌ °¡´ÉÇÏ´Ù.
-		//MonoBehaviourPunCallbacks¸¦ »ó¼ÓÇÑ Å¬·¡½º´Â OnEnableÀ»
-		//ÀçÁ¤ÀÇ ÇÒ ¶§ ²À ºÎ¸ğÀÇ OnEnableÀ» È£ÃâÇØ¾ß ÇÑ´Ù.
+	{   //MonoBehaviourPunCallbacks ì„ ìƒì†ë°›ìŒìœ¼ë¡œ í¬í†¤ì˜ ì½œë²¡ë“¤ì„ ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤.
+		//ë¶€ëª¨ì˜ ë©”ì„œë“œë¥¼ ìƒì†ë°›ì•„ì•¼ë§Œ, ì„œë²„ì™€ í†µì‹ ì´ ê°€ëŠ¥í•˜ë‹¤.
+		//MonoBehaviourPunCallbacksë¥¼ ìƒì†í•œ í´ë˜ìŠ¤ëŠ” OnEnableì„
+		//ì¬ì •ì˜ í•  ë•Œ ê¼­ ë¶€ëª¨ì˜ OnEnableì„ í˜¸ì¶œí•´ì•¼ í•œë‹¤.
 		base.OnEnable();
 
-
-		//print("ÇÏÀÌ");
+		//print("í•˜ì´");
 	}
 
 	public override void OnConnected()
-	{   //Æ÷Åæ ¼­¹ö¿¡ ¿¬°áµÆÀ» ¶§ È£Ãâ
+	{   //í¬í†¤ ì„œë²„ì— ì—°ê²°ëì„ ë•Œ í˜¸ì¶œ
 		PanelOpen("Menu");
 	}
 
 	public override void OnDisconnected(DisconnectCause cause)
-	{   //¿¬°áÀÌ ÇØÁ¦µÆÀ» ¶§ È£Ãâ
-		LogManager.Log($"·Î±×¾Æ¿ô µÊ : {cause}");
+	{   //ì—°ê²°ì´ í•´ì œëì„ ë•Œ í˜¸ì¶œ
+		LogManager.Log($"ë¡œê·¸ì•„ì›ƒ ë¨ : {cause}");
 		PanelOpen("Login");
 	}
 
 	public override void OnCreatedRoom()
-	{   //¹æÀ» »ı¼ºÇÏ¿´À» ¶§ È£Ãâ
+	{   //ë°©ì„ ìƒì„±í•˜ì˜€ì„ ë•Œ í˜¸ì¶œ
 		PanelOpen("Room");
 	}
 
 	public override void OnJoinedRoom()
-	{   //¹æ¿¡ Âü¿©ÇÒ ¶§ È£Ãâ
+	{   //ë°©ì— ì°¸ì—¬í•  ë•Œ í˜¸ì¶œ
 		PanelOpen("Room");
 		Hashtable roomCustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
 		if (roomCustomProperties.ContainsKey("Difficulty"))
@@ -77,7 +75,7 @@ public class PanelManager : MonoBehaviourPunCallbacks
 	}
 
 	public override void OnLeftRoom()
-	{   //¹æÀ» ¶°³¯ ¶§ È£Ãâ
+	{   //ë°©ì„ ë– ë‚  ë•Œ í˜¸ì¶œ
 		PanelOpen("Menu");
 	}
 
@@ -92,17 +90,17 @@ public class PanelManager : MonoBehaviourPunCallbacks
 	}
 
 	public override void OnJoinedLobby()
-	{   //·Îºñ¿¡ µ¹¾Æ¿Ã ¶§ È£Ãâ
+	{   //ë¡œë¹„ì— ëŒì•„ì˜¬ ë•Œ í˜¸ì¶œ
 		PanelOpen("Lobby");
 	}
 
 	public override void OnLeftLobby()
-	{   //·Îºñ¸¦ ¶°³¯ ¶§ È£Ãâ
+	{   //ë¡œë¹„ë¥¼ ë– ë‚  ë•Œ í˜¸ì¶œ
 		PanelOpen("Menu");
 	}
 
 	public override void OnRoomListUpdate(List<RoomInfo> roomList)
-	{   //·ë ¸®½ºÆ®°¡ ¾÷µ¥ÀÌÆ®µÉ ¶§ È£Ãâ
+	{   //ë£¸ ë¦¬ìŠ¤íŠ¸ê°€ ì—…ë°ì´íŠ¸ë  ë•Œ í˜¸ì¶œ
 		lobby.UpdateRoomList(roomList);
 	}
 
@@ -127,7 +125,4 @@ public class PanelManager : MonoBehaviourPunCallbacks
 	//}
 
 }
-
-
-
 

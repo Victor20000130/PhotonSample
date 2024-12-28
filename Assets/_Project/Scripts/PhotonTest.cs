@@ -4,21 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class PhotonTest : MonoBehaviour
 {
 	public ClientState state = 0;
 
 	//private void Start()
-	//{   //À¯Àú ÀÌ¸§ ¼¼ÆÃ
+	//{   //ìœ ì € ì´ë¦„ ì„¸íŒ…
 	//	PhotonNetwork.NickName = $"Test Player {Random.Range(100, 1000)}";
 
-	//	//Æ÷Åæ ¼­¹ö Á¢¼Ó(PhotonServerSettings ÆÄÀÏÀÇ ¼³Á¤ »ç¿ë)
+	//	//í¬í†¤ ì„œë²„ ì ‘ì†(PhotonServerSettings íŒŒì¼ì˜ ì„¤ì • ì‚¬ìš©)
 	//	PhotonNetwork.ConnectUsingSettings();
 	//}
-
-
 
 	private void Update()
 	{

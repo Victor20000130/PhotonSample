@@ -9,9 +9,8 @@ using Random = UnityEngine.Random;
 
 public class MenuPanel : MonoBehaviour
 {
-	//»ó¼ö
+	//ìƒìˆ˜
 	const int MAX_PLAYER = 8;
-
 
 	public Text playerName;
 
@@ -53,7 +52,7 @@ public class MenuPanel : MonoBehaviour
 
 	private void OnEnable()
 	{
-		playerName.text = $"¾È³çÇÏ¼¼¿ä, {PhotonNetwork.LocalPlayer.NickName}´Ô";
+		playerName.text = $"ì•ˆë…•í•˜ì„¸ìš”, {PhotonNetwork.LocalPlayer.NickName}ë‹˜";
 		CancelButtonClick();
 	}
 
@@ -80,7 +79,7 @@ public class MenuPanel : MonoBehaviour
 	}
 
 	private void LogoutButtonClick()
-	{   //¿¬°á ÇØÁ¦
+	{   //ì—°ê²° í•´ì œ
 		PhotonNetwork.Disconnect();
 	}
 
@@ -88,12 +87,11 @@ public class MenuPanel : MonoBehaviour
 	{
 		string roomName = roomNameInput.text;
 
-		//int.TryParse¸¦ ¾²¸é À¯È¿¼º °Ë»ç °¡´É
+		//int.TryParseë¥¼ ì“°ë©´ ìœ íš¨ì„± ê²€ì‚¬ ê°€ëŠ¥
 		if (false == int.TryParse(playerNumInput.text, out int maxPlayer))
 		{
 			maxPlayer = MAX_PLAYER;
 		}
-
 
 		if (string.IsNullOrEmpty(roomName))
 		{
@@ -110,7 +108,7 @@ public class MenuPanel : MonoBehaviour
 			MaxPlayers = MAX_PLAYER
 		};
 
-		//ÃÖ´ë ÇÃ·¹ÀÌ¾î°¡ 8ÀÎ ¹æ »ı¼º
+		//ìµœëŒ€ í”Œë ˆì´ì–´ê°€ 8ì¸ ë°© ìƒì„±
 		PhotonNetwork.CreateRoom(roomName, option);
 
 	}
@@ -126,7 +124,7 @@ public class MenuPanel : MonoBehaviour
 		string nickname = nicknameInput.text;
 		if (nickname.NicknameValidate())
 		{
-			logText.text = "»ç¿ëÀÌ °¡´ÉÇÑ ´Ğ³×ÀÓÀÔ´Ï´Ù.";
+			logText.text = "ì‚¬ìš©ì´ ê°€ëŠ¥í•œ ë‹‰ë„¤ì„ì…ë‹ˆë‹¤.";
 			nicknameInput.text = "";
 			B_ChatManager.Instance.SetNickname(nickname);
 			createRoomButton.gameObject.SetActive(true);
@@ -134,14 +132,12 @@ public class MenuPanel : MonoBehaviour
 			randomRoomButton.gameObject.SetActive(true);
 			logoutButton.gameObject.SetActive(true);
 			PhotonNetwork.NickName = nickname;
-			playerName.text = $"¾È³çÇÏ¼¼¿ä, {PhotonNetwork.NickName}´Ô";
+			playerName.text = $"ì•ˆë…•í•˜ì„¸ìš”, {PhotonNetwork.NickName}ë‹˜";
 		}
 		else
 		{
-			logText.text = "´Ğ³×ÀÓ ±ÔÄ¢¿¡ À§¹İµÇ¾ú½À´Ï´Ù.";
+			logText.text = "ë‹‰ë„¤ì„ ê·œì¹™ì— ìœ„ë°˜ë˜ì—ˆìŠµë‹ˆë‹¤.";
 		}
-
-
 
 	}
 

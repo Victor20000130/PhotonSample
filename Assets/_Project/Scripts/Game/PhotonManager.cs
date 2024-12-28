@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//Æ÷Åæ Äİº¤ ¸®½º³Ê
+//í¬í†¤ ì½œë²¡ ë¦¬ìŠ¤ë„ˆ
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
 
@@ -43,7 +43,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
         return true;
     }
-
 
     public override void OnConnectedToMaster()
     {

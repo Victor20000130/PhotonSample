@@ -67,8 +67,8 @@ public class B_ChatManager : MonoBehaviour, IChatClientListener
 		currentChannel = channels[0];
 		b_chatUI.gameObject.SetActive(true);
 		b_chatUI.roomNameLabel.text = currentChannel;
-		b_chatUI.ReceiveChatMessage("", $"<color=green>{currentChannel} Ã¤ÆÃ¹æ¿¡ ÀÔÀåÇÏ¿´½À´Ï´Ù.</color>");
-		print($"Ã¤ÆÃ¹æ Á¢¼Ó : {currentChannel} <- {channels[0]}");
+		b_chatUI.ReceiveChatMessage("", $"<color=green>{currentChannel} ì±„íŒ…ë°©ì— ì…ì¥í•˜ì˜€ìŠµë‹ˆë‹¤.</color>");
+		print($"ì±„íŒ…ë°© ì ‘ì† : {currentChannel} <- {channels[0]}");
 	}
 
 	public void OnConnected()
@@ -80,7 +80,7 @@ public class B_ChatManager : MonoBehaviour, IChatClientListener
 	{
 		if (channelName != currentChannel)
 		{
-			print($"´Ù¸¥ Ã¤³ÎÀÇ ¸Ş¼¼Áö ¼ö½ÅÇÔ : {channelName}");
+			print($"ë‹¤ë¥¸ ì±„ë„ì˜ ë©”ì„¸ì§€ ìˆ˜ì‹ í•¨ : {channelName}");
 			return;
 		}
 
@@ -91,7 +91,6 @@ public class B_ChatManager : MonoBehaviour, IChatClientListener
 
 	}
 
-
 	public void DebugReturn(DebugLevel level, string message)
 	{
 	}
@@ -100,12 +99,9 @@ public class B_ChatManager : MonoBehaviour, IChatClientListener
 	{
 	}
 
-
-
 	public void OnDisconnected()
 	{
 	}
-
 
 	public void OnPrivateMessage(string sender, object message, string channelName)
 	{
@@ -114,8 +110,6 @@ public class B_ChatManager : MonoBehaviour, IChatClientListener
 	public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
 	{
 	}
-
-
 
 	public void OnUnsubscribed(string[] channels)
 	{
@@ -128,6 +122,5 @@ public class B_ChatManager : MonoBehaviour, IChatClientListener
 	public void OnUserUnsubscribed(string channel, string user)
 	{
 	}
-
 
 }

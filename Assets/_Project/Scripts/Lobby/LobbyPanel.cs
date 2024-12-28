@@ -26,8 +26,6 @@ public class LobbyPanel : MonoBehaviour
 	{
 		if (PhotonNetwork.InLobby == false) return;
 
-
-
 		foreach (RoomInfo roomInfo in currentRoomList)
 		{
 			AddRoomButton(roomInfo);
@@ -44,21 +42,20 @@ public class LobbyPanel : MonoBehaviour
 
 	public void UpdateRoomList(List<RoomInfo> roomsList)
 	{
-		//ÆÄ±«ÈÄº¸
+		//íŒŒê´´í›„ë³´
 		List<RoomInfo> destroyCandidate;
-		//ÇöÀç RoomList¿¡´Â ÀÖ´Âµ¥, OnRoomListUpdateÀÇ ÆÄ¶ó¹ÌÅÍ·Î
-		//³Ñ¾î¿Â RoomList¿¡´Â ¾ø´Â ¹æ Âü¿© ¹öÆ°Àº »èÁ¦ÇØ¾ßÇÔ.
+		//í˜„ì¬ RoomListì—ëŠ” ìˆëŠ”ë°, OnRoomListUpdateì˜ íŒŒë¼ë¯¸í„°ë¡œ
+		//ë„˜ì–´ì˜¨ RoomListì—ëŠ” ì—†ëŠ” ë°© ì°¸ì—¬ ë²„íŠ¼ì€ ì‚­ì œí•´ì•¼í•¨.
 		destroyCandidate = currentRoomList.FindAll(x => false == roomsList.Contains(x));
 
-
-		//currentRoomList¿¡´Â ¾ø´Âµ¥ roomList¿¡ ÀÖ´Â ¹æÂü¿© ¹öÆ° »ı¼ºÇÏ±â.
+		//currentRoomListì—ëŠ” ì—†ëŠ”ë° roomListì— ìˆëŠ” ë°©ì°¸ì—¬ ë²„íŠ¼ ìƒì„±í•˜ê¸°.
 		foreach (RoomInfo roomInfo in roomsList)
 		{
 			if (currentRoomList.Contains(roomInfo)) continue;
 			AddRoomButton(roomInfo);
 		}
 
-		//destroyCandidate ¸®½ºÆ®¿¡ ÀÖ´Â ¹æ Âü¿© ¹öÆ° »èÁ¦.
+		//destroyCandidate ë¦¬ìŠ¤íŠ¸ì— ìˆëŠ” ë°© ì°¸ì—¬ ë²„íŠ¼ ì‚­ì œ.
 		foreach (Transform child in roomListRect)
 		{
 			if (destroyCandidate.Exists(x => x.Name == child.name))
@@ -69,7 +66,7 @@ public class LobbyPanel : MonoBehaviour
 		}
 	}
 
-	//¹æ µ¥ÀÌÅÍ°¡ ÀÖÀ¸¸é, ¹æ Âü¿© ¹öÆ°À» »ı¼ºÇÒ ¸Ş¼­µå.
+	//ë°© ë°ì´í„°ê°€ ìˆìœ¼ë©´, ë°© ì°¸ì—¬ ë²„íŠ¼ì„ ìƒì„±í•  ë©”ì„œë“œ.
 	public void AddRoomButton(RoomInfo roomInfo)
 	{
 		GameObject joinButton = Instantiate(roomButtonPrefab, roomListRect, false);

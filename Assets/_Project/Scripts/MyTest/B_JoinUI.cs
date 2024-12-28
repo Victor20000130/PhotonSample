@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class B_JoinUI : MonoBehaviour
 {
-	//´Ğ³×ÀÓ, ¹æÀÌ¸§
+	//ë‹‰ë„¤ì„, ë°©ì´ë¦„
 
 	public string nickName;
 	public string roomName;
@@ -24,7 +24,6 @@ public class B_JoinUI : MonoBehaviour
 		joinChatButton.interactable = false;
 	}
 
-
 	private void ConnectButtonClick()
 	{
 		B_ChatManager.Instance.ConnectUsingSettings();
@@ -39,7 +38,7 @@ public class B_JoinUI : MonoBehaviour
 
 	public void OnJoinedServer()
 	{
-		connectButton.GetComponentInChildren<Text>().text = "Ã¤ÆÃÁ¢¼Ó¿Ï·á";
+		connectButton.GetComponentInChildren<Text>().text = "ì±„íŒ…ì ‘ì†ì™„ë£Œ";
 		joinChatButton.interactable = true;
 	}
 }

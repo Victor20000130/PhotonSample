@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-
 public class PlayerEntry : MonoBehaviour
 {
     public ToggleGroup characterSelectToggleGroup;
@@ -60,7 +59,7 @@ public class PlayerEntry : MonoBehaviour
         if (IsMine)
         {
             for (int i = 0; i < selectToggles.Count; i++)
-            {   //ÀÏºÎ·¯ ÀÍ¸í¸Þ¼­µå¿¡ º¯¼ö¸¦ Ä¸ÃÄÇÏ±â À§ÇØ Áö¿ª º¯¼ö¸¦ »õ·Î »ý¼º
+            {   //ì¼ë¶€ëŸ¬ ìµëª…ë©”ì„œë“œì— ë³€ìˆ˜ë¥¼ ìº¡ì³í•˜ê¸° ìœ„í•´ ì§€ì—­ ë³€ìˆ˜ë¥¼ ìƒˆë¡œ ìƒì„±
                 int index = i;
 
                 selectToggles[i].onValueChanged.AddListener(

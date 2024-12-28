@@ -15,7 +15,6 @@ public class LoginPanel : MonoBehaviour
     public Button loginButton;
     public Button chatButton;
 
-
     private void Awake()
     {
         loginButton.onClick.AddListener(OnLogInButtonClick);
