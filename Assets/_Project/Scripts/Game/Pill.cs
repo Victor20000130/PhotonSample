@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRan = UnityEngine.Random;
 
 public class Pill : MonoBehaviourPun
 {

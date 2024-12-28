@@ -58,26 +58,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 		//PlayerNumbering 컴포넌트가 필요하다.
 		int playerNum = PhotonNetwork.LocalPlayer.GetPlayerNumber();
 		Vector3 playerPos = playerPositions.GetChild(playerNum).position;
-		GameObject playerObj = PhotonNetwork.Instantiate("Player", playerPos, Quaternion.identity);
+
+		GameObject playerObj = PhotonNetwork.Instantiate("Player", playerPos, Quaternion.identity, data: new object[] { PhotonNetwork.LocalPlayer.CustomProperties["CharacterSelect"] });
 		playerObj.name = $"Player {playerNum}";
-
-		var customProp = PhotonNetwork.LocalPlayer.CustomProperties;
-
-		//이건 쓰레기 같이 찾아오는 방식임 귀찮기 때문에 그냥 함.
-		//문제점 : playerObj하위에 옵젝 많아지면 부하 심해짐. //장점 : 쓰레기 같지면 편하죠?
-		//해결책 : 배열을 쓰던 뭘 쓰던 customProp의 값하고 매칭시키면 됨.
-		switch (customProp["CharacterSelect"])
-		{
-			case 0:
-				playerObj.transform.Find("Renderer").Find("Eyes").Find("Cube").gameObject.SetActive(true);
-				break;
-			case 1:
-				playerObj.transform.Find("Renderer").Find("Eyes").Find("TwoEyes").gameObject.SetActive(true);
-				break;
-			case 2:
-				playerObj.transform.Find("Renderer").Find("Eyes").Find("Lense").gameObject.SetActive(true);
-				break;
-		}
 
 		foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
 		{
@@ -163,4 +146,5 @@ public class GameManager : MonoBehaviourPunCallbacks
 			}
 		}
 	}
+
 }

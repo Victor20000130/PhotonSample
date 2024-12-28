@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
 	public Bomb bombPrefab;
 
+	public List<GameObject> eyesCustom = new();
+
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody>();
@@ -39,6 +41,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 		pointer = transform.Find("PlayerPointer");
 		shotPoint = transform.Find("ShotPoint");
 		tag = photonView.IsMine ? "Player" : "Enemy";
+
+		object[] param = photonView.InstantiationData;
+		if (param != null)
+		{
+			int eyesNumber = (int)param[0];
+			eyesCustom[eyesNumber].SetActive(true);
+		}
 	}
 
 	private void Update()
