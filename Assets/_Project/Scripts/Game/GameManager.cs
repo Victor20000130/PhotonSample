@@ -114,11 +114,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 					CheckWinner();
 					continue;
 				case PlayerState.LOSE:
-					LogManager.Log("?꼫 吏?");
+					LogManager.Log("Lose");
 					StopCoroutine(PlayersState());
 					break;
 				case PlayerState.WIN:
-					LogManager.Log("?꼫 ?씠源?");
+					LogManager.Log("Win");
 					break;
 			}
 		}
